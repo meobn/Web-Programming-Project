@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Le Salon de café TAM | À vous de jouer !</title>
+    <script
+      src="https://kit.fontawesome.com/8a69b78096.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/script.js"></script>
+    <link rel="stylesheet" href="./CSS/style.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <nav>
+        <h1>
+          <input
+            class="titre_input"
+            type="text"
+            id="titre_i"
+            value="LE SALON DE CAFÉ TAM"
+          />
+        </h1>
+
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="qui-sommes-nous.html">Qui sommes-nous ?</a></li>
+          <li><a href="Boutique.html">Boutique</a></li>
+          <li><a href="réservation.html">Réservez</a></li>
+          <li><a href="nous_trouver.html">Nous trouver</a></li>
+          <li><a class="active" href="jouer.html">À vous de jouer !</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="vp2">
+      <div class="vp-content">
+        <input
+          class="titre_input2"
+          type="text"
+          id="titre_i2"
+          value="À vous de jouer !"
+        />
+
+        <div class="separator"></div>
+        <p id="color_i">
+          Prenez un café, détendez-vous et amusez-vous à personnaliser cette
+          page selon votre humeur ou vos goûts. Devenez le héros de votre site !
+          <br/>
+          <br/>
+          <mark class="highlight">Vous pouvez aussi consulter la température en temps direct depuis cette page, pour profiter au maximum de votre expérience lors de votre venue au salon de café TAM.</mark>
+        </p>
+        <a href="./qui-sommes-nous.html" class="btn btn-primary my-10"
+          >Découvrir</a
+        >
+      </div>
+    </section>
+
+    <br /><br /><br />
+
+    <section class="api_1">
+      <div class="api_2">
+        <br />
+        <input id="queryLoc" type="text" value="Paris,fr" />
+        <input
+          type="button"
+          value="APPEL API METEO"
+          onclick="buttonClickGET()"
+        />
+        <br />
+        <br />
+        <p id="zone_meteo"></p>
+      </div>
+    </section>
+   
+
+
+    <br /><br /><br />
+
+    <div class="login-box">
+      <h2>Personnalisez notre site !</h2>
+      <form onsubmit="return transform()">
+        <input
+          type="text"
+          id="texte1"
+          value=""
+          placeholder="Changez le nom de l'entreprise"
+          size="30"
+        /><br />
+        <input
+          type="text"
+          id="texte2"
+          value=""
+          placeholder="Changez le titre de la page"
+          size="30"
+        /><br />
+        <label for="color1" style="color: white;"
+          >Changez la couleur du premier paragraphe :</label
+        >
+        <input
+          type="color"
+          id="color1"
+          value=""
+          name="color1"
+          size="30"
+        /><br />
+
+        <input
+          type="button"
+          class="bouton"
+          id="bouton"
+          value="Afficher"
+          size="30"
+          onclick="afficher()"
+        /><br /><br />
+      </form>
+    </div>
+
+    <section class="reservation">
+      <div class="container">
+        <h2>Personnalisez oui, mais pensez à réservez dès maintenant !</h2>
+        <p>
+          Réservez une table ou même le salon pour vos brunch, vos réunions de
+          travail ou encore vos retrouvailles entre amis.
+        </p>
+        <a class="btn btn-dark my-20" href="réservation.html">RÉSERVEZ</a>
+      </div>
+    </section>
+
+    <footer>
+      <p>Copyright &#9400; - TIMOTHE MEO AHMED - 2020</p>
+      <br />
+      <div>
+        <br />
+        <ul>
+          <li style="list-style-type: none;">
+            <a href="https://fr-fr.facebook.com/">Facebook</a>
+          </li>
+          <li><a href="https://www.instagram.com/?hl=fr">Instagram</a></li>
+          <li><a href="https://twitter.com/explore">Twitter</a></li>
+          <li><a href="qui-sommes-nous.html">Qui sommes-nous ?</a></li>
+          <li><a href="nous_trouver.html">Nous trouver</a></li>
+          <li><a href="jouer.html">À vous de jouer !</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+  <script>
+    function afficher() {
+      var saisie = document.getElementById("texte1").value;
+      document.getElementById("titre_i").value = saisie;
+      var saisie2 = document.getElementById("texte2").value;
+      document.getElementById("titre_i2").value = saisie2;
+      var saisie3 = document.getElementById("color1").value;
+      document.getElementById("color_i").style.color = saisie3;
+    }
+
+    var callBackGetSuccess = function(data) {
+  console.log("donnees api", data)
+  //alert("Meteo temp  : "  + data.main.temp);
+  var element = document.getElementById("zone_meteo");
+  element.innerHTML = "La temperature est de " + data.main.temp + "°C dans cette ville.";
+}
+
+
+function buttonClickGET() {
+  var queryLoc = document.getElementById("queryLoc").value;
+
+  var url = "https://api.openweathermap.org/data/2.5/weather?q="+queryLoc+"&appid=c21a75b667d6f7abb81f118dcf8d4611&units=metric"
+
+  $.get(url, callBackGetSuccess).done(function() {
+      //alert( "second success" );
+    })
+    .fail(function() {
+      alert( "error" );
+    })
+    .always(function() {
+      //alert( "finished" );
+    });
+}
+    
+  </script>
+</html>
